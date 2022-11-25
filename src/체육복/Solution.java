@@ -28,9 +28,28 @@ public class Solution {
             }
         }
         int answer = n;
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             if (students.get(i) == 0) answer--;
         }
         return answer;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int n1 = 5;
+        int[] lost1 = {2, 4};
+        int[] reserve1 = {1, 3, 5};
+        int result1 = solution.solution(n1, lost1, reserve1);
+        System.out.println(result1);
+        int n2 = 5;
+        int[] lost2 = {2, 4};
+        int[] reserve2 = {3};
+        int result2 = solution.solution(n2, lost2, reserve2);
+        System.out.println(result2);
+        int n3 = 5;
+        int[] lost3 = {1, 2, 3, 4, 5};
+        int[] reserve3 = {};
+        int result3 = solution.solution(n3, lost3, reserve3);
+        System.out.println(result3);
     }
 }
