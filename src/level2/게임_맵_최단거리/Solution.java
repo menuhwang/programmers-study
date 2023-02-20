@@ -1,4 +1,4 @@
-package 게임_맵_최단거리;
+package level2.게임_맵_최단거리;
 
 import java.util.ArrayDeque;
 
