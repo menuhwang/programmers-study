@@ -13,7 +13,7 @@ class Solution {
         for (int i = 0; i < survey.length; i++) {
             String type = survey[i];
             int choice = point[choices[i]];
-            switch (survey[i]) {
+            switch (type) {
                 case "RT":
                 case "TR":
                     RT += type.equals("RT") ? choice : -1 * choice;
