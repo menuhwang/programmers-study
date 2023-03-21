@@ -4,7 +4,8 @@ class Solution {
         for (char ch : s.toCharArray()) { // 50
             char crypto = ch;
             for (int i = 0; i < index; i++) { // 20
-                crypto = (char)(crypto + 1) > 'z' ? (char)(crypto + 1 - 26) : (char)(crypto + 1);
+                // crypto = (char)(crypto + 1) > 'z' ? (char)(crypto + 1 - 26) : (char)(crypto + 1);
+                crypto = crypto == 'z' ? 'a' : (char)(crypto + 1);
                 for (int j = 0; j < skip.length(); j++) { // 10
                     if (crypto == skip.charAt(j)) {
                         i--;
