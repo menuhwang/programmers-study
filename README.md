@@ -56,3 +56,38 @@
    >    }
    >}
    >```
+
+3. 읽기
+
+   Scaner로 읽어오는 것은 속도가 느리다고하니 BufferedReader를 사용하도록 한다.
+   
+   한 줄에 여러 단어, 숫자가 입력되 나눠야하는 경우 String.split() 보다는 StringTokenizer를 사용한다.
+   
+   - 주의사항
+      1. StringTokenizer를 사용할때는 `java.util.*;`를 추가할 것.
+      2. BufferedReader.readLine()은 반환 값이 String이므로 숫자의 경우 캐스팅이 필요.
+      3. BufferedWriter.write()는 파라미터에 숫자를 넣을 수 없다고하니 String으로 변환하여 넣어줄 것.
+         - StringBuilder에 append하고 StringBuilder.toString()을 써주는것도 방법이 될 수 있을 듯
+   
+   > 예시
+   >
+   > ```
+   > import java.io.*;
+   > import java.util.*;
+   > 
+   > public class Main {
+   >     public static void main(String[] args) throws IOException {
+   >         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+   >         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+   >         
+   >         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+   >         
+   >         int A = Integer.parseInt(st.nextToken());
+   >         int B = Integer.parseInt(st.nextToken());
+   >         
+   >         bw.write(String.valueOf(A + B));
+   >         bw.flush();
+   >         bw.close();
+   >     }
+   >}
+   > ```
