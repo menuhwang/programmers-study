@@ -11,4 +11,48 @@
    > 
    > tip. 파라미터 타입을 수정하는 방법도 가능!
    
-2. 최대 공약수: **유클리드 호제법**
+## 풀이법
+1. 최대 공약수: **유클리드 호제법**
+2. 소수: **에라토스테네스 체**
+
+## 백준 사용법
+1. 제출
+
+   풀이 제출 시 클래스 명은 Main으로 할 것.
+
+   Main 클래스 안에 main(psvm) 안에 코드를 작성해서 제출!
+
+   > 예시
+   >
+   >```java
+   >public class Main {
+   >    public static void main(String[] args) {
+   >        // code
+   >    }
+   >}
+   >```
+
+2. 쓰기
+
+   반복문 안에서 System.out.println()으로 출력할 경우 속도가 느릴수 있다고 한다.
+
+   따라서 java.io 의 BufferedWriter와 OutputStreamWriter을 사용한다.
+
+   - 주의사항
+      1. `import java.io.*;` 잊지말고 반드시 추가
+      2. main 메소드에 `throws IOException` 추가
+
+   > 예시
+   >
+   >```java
+   >import java.io.*;
+   >
+   >public class Main {
+   >    public static void main(String[] args) throws IOException {
+   >        BufferedWriter bw = new BufferedWriter (new OutputStreamWriter(System.out));
+   >        bw.write("Hello World!");
+   >        bw.flush();
+   >        bw.close();
+   >    }
+   >}
+   >```
