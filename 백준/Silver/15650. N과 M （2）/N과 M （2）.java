@@ -13,11 +13,11 @@ public class Main {
 
         array = new int[M];
 
-        bfs(0, 1);
+        dfs(0, 1);
     }
 
-    private static void bfs(int breadth, int s) {
-        if (breadth == M) {
+    private static void dfs(int depth, int s) {
+        if (depth == M) {
             for (int num : array) {
                 System.out.print(num + " ");
             }
@@ -25,8 +25,8 @@ public class Main {
             return;
         }
         for (int i = s; i <= N; i++) {
-            array[breadth] = i;
-            bfs(breadth + 1, i + 1);
+            array[depth] = i;
+            dfs(depth + 1, i + 1);
         }
     }
 }
