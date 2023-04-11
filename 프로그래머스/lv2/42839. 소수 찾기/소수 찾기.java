@@ -1,27 +1,20 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 class Solution {
     static boolean[] check;
     static Set<String> nums = new HashSet<>();
     
-    public int solution(String numbers) {
+    public long solution(String numbers) {
         String[] cards = numbers.split("");
         check = new boolean[cards.length];
         
         dfs("", cards);
         
-        Set<Integer> integer = nums.stream()
-            .map(Integer::parseInt)
-            .collect(Collectors.toSet());
-        
-        int answer = 0;
-        
-        for (int n : integer) {
-            if (isPrime(n)) answer++;
-        }
-        
-        return answer;
+        return nums.stream()
+            .mapToInt(Integer::parseInt)
+            .distinct()
+            .filter(this::isPrime)
+            .count();
     }
     
     private void dfs(String prefix, String[] cards) {
