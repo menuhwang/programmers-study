@@ -17,13 +17,13 @@ public class Main {
             memo[i] = Integer.parseInt(st.nextToken()) + memo[i - 1];
         }
         
-        int e;
         int s;
+        int e;
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            e = Integer.parseInt(st.nextToken());
             s = Integer.parseInt(st.nextToken());
-            bw.write(memo[s] - memo[e - 1] + "\n");
+            e = Integer.parseInt(st.nextToken());
+            bw.write(memo[e] - memo[s - 1] + "\n");
         }
 
         bw.flush();
