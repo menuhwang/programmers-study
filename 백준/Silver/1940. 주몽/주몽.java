@@ -19,10 +19,18 @@ public class Main {
         Arrays.sort(materials);
 
         int result = 0;
-        for (int i = N - 1; i > -1; i--) {
-            for (int j = 0; j < i; j++) {
-                if (materials[i] + materials[j] == M) result++;
-                else if (materials[i] + materials[j] > M) break;
+
+        int left = 0;
+        int right = N - 1;
+        while (left < right) {
+            int armor = materials[left] + materials[right];
+            if (armor < M) {
+                left++;
+            } else if (armor > M) {
+                right--;
+            } else {
+                result++;
+                left++;
             }
         }
 
