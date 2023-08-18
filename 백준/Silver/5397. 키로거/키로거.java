@@ -9,28 +9,32 @@ public class Main {
 
         String password;
         LinkedList<Character> result;
-        int cursor;
+        ListIterator<Character> iterator;
         StringBuilder sb = new StringBuilder();
         for (int t = 0; t < T; t++) {
             password = br.readLine();
             int len = password.length();
             result = new LinkedList<>();
-            cursor = 0;
+            iterator = result.listIterator();
             for (int c = 0; c < len; c++) {
                 char ch = password.charAt(c);
                 switch (ch) {
                     case '<':
-                        cursor = Math.max(cursor - 1, 0);
+                        if (iterator.hasPrevious())
+                            iterator.previous();
                         break;
                     case '>':
-                        cursor = Math.min(cursor + 1, result.size());
+                        if (iterator.hasNext())
+                            iterator.next();
                         break;
                     case '-':
-                        if (cursor == 0) break;
-                        result.remove(--cursor);
+                        if (iterator.hasPrevious()) {
+                            iterator.previous();
+                            iterator.remove();
+                        }
                         break;
                     default:
-                        result.add(cursor++, ch);
+                        iterator.add(ch);
                         break;
                 }
             }
