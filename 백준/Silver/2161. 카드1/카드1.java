@@ -11,14 +11,12 @@ public class Main {
         for (int i = 1; i <= N; i++)
             deq.offer(i);
 
-        Stack<Integer> bin = new Stack<>();
-
+        StringBuilder sb = new StringBuilder();
         while (deq.size() > 1) {
-            bin.push(deq.poll());
+            sb.append(deq.poll()).append(" ");
             deq.offer(deq.poll());
         }
-        StringBuilder sb = new StringBuilder();
-        bin.forEach((n) -> sb.append(n).append(" "));
+
         sb.append(deq.poll());
 
         System.out.println(sb.toString());
