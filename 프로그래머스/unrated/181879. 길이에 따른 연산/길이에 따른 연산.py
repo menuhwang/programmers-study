@@ -1,9 +1,4 @@
-def solution(num_list):
-    return sum(num_list) if len(num_list) > 10 else mul(num_list)
+from math import prod
 
-def mul(num_list):
-    result = 1
-    for n in num_list:
-        result *= n
-    
-    return result
+def solution(num_list):
+    return sum(num_list) if len(num_list) > 10 else prod(num_list)
