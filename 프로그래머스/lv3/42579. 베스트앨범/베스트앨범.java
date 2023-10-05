@@ -2,64 +2,54 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        HashMap<String, Integer> count = new HashMap<>();
-        HashMap<String, Integer> genreCount = new HashMap<>();
-        List<Music> musics = new ArrayList<>();
-        
+        List<Integer> result = new ArrayList<>();
+
+        Map<String, Integer> genreAndPlay = new HashMap<>();
+        Map<String, List<Music>> genreAndMusic = new HashMap<>();
         for (int i = 0; i < genres.length; i++) {
-            count.put(genres[i], count.getOrDefault(genres[i], 0) + plays[i]);
-            genreCount.put(genres[i], 0);
-            musics.add(new Music(i, genres[i], plays[i]));
+            if (!genreAndPlay.containsKey(genres[i])) {
+                genreAndPlay.put(genres[i], 0);
+                genreAndMusic.put(genres[i], new LinkedList<>());
+            }
+            genreAndPlay.put(genres[i], genreAndPlay.get(genres[i]) + plays[i]);
+            genreAndMusic.get(genres[i]).add(new Music(i, plays[i]));
         }
-        
-        Collections.sort(musics, (m1, m2) -> {
-            if (!m1.getGenre().equals(m2.getGenre())) {
-                return Integer.compare(count.get(m1.getGenre()), count.get(m2.getGenre())) * -1;
-            }
-            if (m1.getPlay() != m2.getPlay()) {
-                return Integer.compare(m1.getPlay(), m2.getPlay()) * -1;
-            }
-            return Integer.compare(m1.getId(), m2.getId());
-        });
-        
-        List<Integer> album = new ArrayList<>();
-        for (Music m : musics) {
-            String genre = m.getGenre();
-            if (genreCount.get(genre) < 2) {
-                genreCount.put(genre, genreCount.get(genre) + 1);
-                album.add(m.getId());
+
+        List<Map.Entry<String, Integer>> entries = new LinkedList<>(genreAndPlay.entrySet());
+        entries.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+
+        for (Map.Entry<String, Integer> entry : entries) {
+            List<Music> musics = genreAndMusic.get(entry.getKey());
+            Collections.sort(musics);
+
+            int num = Math.min(2, musics.size());
+            for (int i = 0; i < num; i++) {
+                result.add(musics.get(i).id);
             }
         }
-        
-        int[] answer = new int[album.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = album.get(i);
-        }
-        
+
+        int[] answer = new int[result.size()];
+        for (int i = 0; i < answer.length; i++)
+            answer[i] = result.get(i);
+
         return answer;
     }
-    
-    static class Music {
-        private int id;
-        private String genre;
-        private int play;
-        
-        Music(int id, String genre, int play) {
+
+    static class Music implements Comparable<Music> {
+        private final int id;
+        private final int play;
+
+        Music(int id, int play) {
             this.id = id;
-            this.genre = genre;
             this.play = play;
         }
-        
-        int getId() {
-            return id;
-        }
-        
-        String getGenre() {
-            return genre;
-        }
-        
-        int getPlay() {
-            return play;
+
+        @Override
+        public int compareTo(Music m) {
+            int result = Integer.compare(play, m.play) * -1;
+            if (result == 0)
+                result = Integer.compare(id, m.id);
+            return result;
         }
     }
 }
