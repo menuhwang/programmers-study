@@ -1,37 +1,50 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.StringTokenizer;
 
-public class Main {
-    static int N;
-    static int M;
-    static int[] array;
-    static boolean[] check;
+class Main {
+    private static boolean[] flag;
+    private static StringBuilder sb;
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
 
-        N = sc.nextInt();
-        M = sc.nextInt();
+        try {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
+            flag = new boolean[N];
 
-        array = new int[M];
-        check = new boolean[N + 1];
+            sb = new StringBuilder();
 
-        dfs(0);
+            permutation(M);
+
+            bw.flush();
+
+        } finally {
+            br.close();
+            bw.close();
+        }
+
     }
 
-    private static void dfs(int depth) {
-        if (depth == array.length) {
-            for (int num : array) {
-                System.out.print(num + " ");
+    private static void permutation(int len) throws IOException {
+        if (sb.length() == len) {
+            for (int i = 0; i < sb.length(); i++) {
+                bw.write(sb.charAt(i) + " ");
             }
-            System.out.println();
+            bw.write("\n");
             return;
         }
-        for (int i = 1; i <= N; i++) {
-            if (check[i]) continue;
-            check[i] = true;
-            array[depth] = i;
-            dfs(depth + 1);
-            check[i] = false;
+
+        for (int i = 0; i < flag.length; i++) {
+            if (flag[i]) continue;
+
+            sb.append(i + 1);
+            flag[i] = true;
+            permutation(len);
+            sb.deleteCharAt(sb.length() - 1);
+            flag[i] = false;
         }
     }
 }
