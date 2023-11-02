@@ -1,32 +1,45 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.StringTokenizer;
 
-public class Main {
-    static int N;
-    static int M;
-    static int[] array;
+class Main {
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static int[] array;
+    private static int N;
+    private static int M;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
 
-        N = sc.nextInt();
-        M = sc.nextInt();
+        try {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            N = Integer.parseInt(st.nextToken());
+            M = Integer.parseInt(st.nextToken());
 
-        array = new int[M];
+            array = new int[M];
 
-        dfs(0, 1);
+            permutation(1, 0);
+
+            bw.flush();
+
+        } finally {
+            br.close();
+            bw.close();
+        }
+
     }
 
-    private static void dfs(int depth, int s) {
+    private static void permutation(int n, int depth) throws IOException {
         if (depth == M) {
-            for (int num : array) {
-                System.out.print(num + " ");
-            }
-            System.out.println();
+            for (int num : array)
+                bw.write(num + " ");
+
+            bw.write("\n");
             return;
         }
-        for (int i = s; i <= N; i++) {
+
+        for (int i = n; i <= N; i++) {
             array[depth] = i;
-            dfs(depth + 1, i + 1);
+            permutation(i + 1, depth + 1);
         }
     }
 }
