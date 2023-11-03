@@ -1,33 +1,31 @@
 import java.io.*;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Main {
-    static int N;
-    static int M;
-    static int[] array;
-
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+class Main {
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static int N;
+    private static int M;
+    private static int[] array;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            N = Integer.parseInt(st.nextToken());
+            M = Integer.parseInt(st.nextToken());
+            array = new int[M];
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+            permutation(1, 0);
 
-        array = new int[M];
-
-        dfs(0, 1);
-
-        bw.flush();
-        br.close();
-        bw.close();
+        } finally {
+            br.close();
+            bw.close();
+        }
     }
 
-    private static void dfs(int depth, int s) throws IOException {
-        if (depth == M) {
+    private static void permutation(int prev, int depth) throws IOException {
+        if (array.length == depth) {
             for (int num : array) {
                 bw.write(num + " ");
             }
@@ -35,9 +33,9 @@ public class Main {
             return;
         }
 
-        for (int i = s; i <= N; i++) {
+        for (int i = prev; i <= N; i++) {
             array[depth] = i;
-            dfs(depth + 1, i);
+            permutation(i, depth + 1);
         }
     }
 }
