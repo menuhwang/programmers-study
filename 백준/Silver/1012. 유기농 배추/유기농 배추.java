@@ -2,69 +2,76 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int[] dx = new int[]{0, -1, 0, 1};
-    static int[] dy = new int[]{1, 0, -1, 0};
-    
-    static boolean[][] matrix = new boolean[50][50];
-    static int N;
-    static int M;
-    
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        
-        int T = Integer.parseInt(br.readLine());
-        int K;
+    static boolean[][] matrix;
 
-        StringTokenizer st;
-        for (int t = 0; t < T; t++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            M = Integer.parseInt(st.nextToken());
-            N = Integer.parseInt(st.nextToken());
-            K = Integer.parseInt(st.nextToken());
-            
-            // 배추 위치 초기화
-            int x;
-            int y;
-            for (int k = 0; k < K; k++) {
-                st = new StringTokenizer(br.readLine(), " ");
-                x = Integer.parseInt(st.nextToken());
-                y = Integer.parseInt(st.nextToken());
-                matrix[y][x] = true;
-            }
-            
-            int count = 0;
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (matrix[i][j]) {
-                        count++;
-                        dfs(j, i);
+    public static void main(String[] args) throws IOException {
+        try (
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        ) {
+            // 테스트 케이스
+            int T = Integer.parseInt(br.readLine());
+
+            // 가로
+            int M;
+            // 세로
+            int N;
+            // 배추
+            int K;
+
+            int answer;
+
+            StringTokenizer st;
+            for (int t = 0; t < T; t++) {
+                st = new StringTokenizer(br.readLine());
+                M = Integer.parseInt(st.nextToken());
+                N = Integer.parseInt(st.nextToken());
+                K = Integer.parseInt(st.nextToken());
+                answer = 0;
+
+                // init matrix
+                matrix = new boolean[M][N];
+
+                for (int k = 0; k < K; k++) {
+                    st = new StringTokenizer(br.readLine());
+                    int x = Integer.parseInt(st.nextToken());
+                    int y = Integer.parseInt(st.nextToken());
+                    matrix[x][y] = true;
+                }
+                //
+
+                for (int i = 0; i < M; i++) {
+                    for (int j = 0; j < N; j++) {
+                        if (matrix[i][j]) {
+                            answer++;
+                            dfs(i, j);
+                        }
                     }
                 }
+
+                bw.write(answer + "\n");
             }
-            
-            bw.write(count + "\n");
+            bw.flush();
         }
-        
-        bw.flush();
-        br.close();
-        bw.close();
     }
-    
+
+    // 맵에 방문 처리
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
     private static void dfs(int x, int y) {
-        matrix[y][x] = false;
-        
+        matrix[x][y] = false;
+
+        int nx;
+        int ny;
         for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (isOnMatrix(nx, ny) && matrix[ny][nx]) dfs(nx, ny);
+            nx = x + dx[i];
+            ny = y + dy[i];
+
+            if (nx < 0 || ny < 0 || nx >= matrix.length || ny >= matrix[0].length) // 맵의 밖
+                continue;
+
+            if (matrix[nx][ny])
+                dfs(nx, ny);
         }
-    }
-    
-    private static boolean isOnMatrix(int x, int y) {
-        return x < M
-            && y < N
-            && x > -1
-            && y > -1;
     }
 }
