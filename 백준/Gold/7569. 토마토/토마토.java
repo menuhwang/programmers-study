@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 class Main {
     private static String[][][] tomato;
-    private static boolean[][][] visited;
     private static int M;
     private static int N;
     private static int H;
@@ -21,7 +20,6 @@ class Main {
             H = Integer.parseInt(st.nextToken());
 
             tomato = new String[H][N][M];
-            visited = new boolean[H][N][M];
 
             for (int i = 0; i < H; i++) {
                 for (int j = 0; j < N; j++) {
@@ -38,7 +36,6 @@ class Main {
                     for (int k = 0; k < M; k++) {
                         if (tomato[i][j][k].equals("1")) {
                             queue.add(new Pos(k, j, i));
-                            visited[i][j][k] = true;
                         }
                     }
                 }
@@ -62,11 +59,10 @@ class Main {
 
                         if (!isInBox(nx, ny, nz)) continue;
                         if (tomato[nz][ny][nx].equals("-1")) continue;
-                        if (visited[nz][ny][nx]) continue;
+                        if (tomato[nz][ny][nx].equals("1")) continue;
 
                         queue.add(new Pos(nx, ny, nz));
                         tomato[nz][ny][nx] = "1";
-                        visited[nz][ny][nx] = true;
                     }
                 }
                 day++;
