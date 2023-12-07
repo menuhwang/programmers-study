@@ -14,7 +14,7 @@ class Main {
         try (br; bw) {
 
             /*
-            * 1. 집만 표시 되어 있는 맵 초기화
+            * 1. 집 위치 리스트 초기화
             * 2. 치킨집 위치 리스트 초기화
             * 3. 치킨집 M개 조합 리스트 생성
             * 4. 도시의 치킨 거리 계산
@@ -42,7 +42,7 @@ class Main {
 
             int min = Integer.MAX_VALUE;
             for (int[][] bhc : bhcCombination) {
-                int cityBhcDistance = getCityBhcDistance(N, houses, bhc);
+                int cityBhcDistance = getCityBhcDistance(houses, bhc);
                 min = Math.min(min, cityBhcDistance);
             }
 
@@ -64,60 +64,22 @@ class Main {
         }
     }
 
-    private static final int[][] DIRECTIONS = {
-            {-1, 0},
-            {1, 0},
-            {0, -1},
-            {0, 1}
-    };
+    private static int getBhcDistance(int[] house, int[][] bhcs) {
+        int min = Integer.MAX_VALUE;
 
-    private static int getBhcDistance(int cityLen, int[] house, int[][] bhcs) {
-        int[][] map = new int[cityLen + 1][cityLen + 1];
-        for (int[] bhc : bhcs)
-            map[bhc[0]][bhc[1]] = 2;
-
-        Queue<int[]> q = new LinkedList<>();
-        q.add(house);
-        map[house[0]][house[1]] = -1;
-
-        int breadth = 0;
-        while (!q.isEmpty()) {
-            int qSize = q.size();
-            breadth++;
-            for (int i = 0; i < qSize; i++) {
-                int[] poll = q.poll();
-
-                int r = poll[0];
-                int c = poll[1];
-
-                for (int j = 0; j < DIRECTIONS.length; j++) {
-                    int nr = r + DIRECTIONS[j][0];
-                    int nc = c + DIRECTIONS[j][1];
-
-                    if (nr < 1 || nc < 1 || nr > cityLen || nc > cityLen) // 지도 밖
-                        continue;
-
-                    if (map[nr][nc] < 0) // 이미 방문
-                        continue;
-
-                    if (map[nr][nc] == 2) // 치킨 거리
-                        return breadth;
-
-                    map[nr][nc] = -1;
-
-                    q.add(new int[]{nr, nc});
-                }
-            }
+        for (int[] bhc : bhcs) {
+            int distance = Math.abs(bhc[0] - house[0]) + Math.abs(bhc[1] - house[1]);
+            min = Math.min(min, distance);
         }
 
-        return -1;
+        return min;
     }
 
-    private static int getCityBhcDistance(int cityLen, List<int[]> houses, int[][] bhcs) {
+    private static int getCityBhcDistance(List<int[]> houses, int[][] bhcs) {
         int cityBhcDistance = 0;
 
         for (int[] house: houses)
-            cityBhcDistance += getBhcDistance(cityLen, house, bhcs);
+            cityBhcDistance += getBhcDistance(house, bhcs);
 
         return cityBhcDistance;
     }
