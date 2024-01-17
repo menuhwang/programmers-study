@@ -4,25 +4,20 @@ class Solution {
     private String[] chars = {"4", "1", "2"};
     
     public String solution(int n) {
-        Stack<Integer> stack = new Stack<>();
+        String answer = "";
         
         while (n > 0) {
             int q = n / 3;
             int r = n % 3;
             n /= 3;
-            stack.push(r);
+            
+            answer = chars[r] + answer;
             
             if (r == 0) {
                 n -= 1;
             }
         }
         
-        StringBuilder sb = new StringBuilder();
-        
-        while (!stack.isEmpty()) {
-            sb.append(chars[stack.pop()]);
-        }
-        
-        return sb.toString();
+        return answer;
     }
 }
