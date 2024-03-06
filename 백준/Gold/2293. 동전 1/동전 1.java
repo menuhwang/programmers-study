@@ -11,27 +11,21 @@ class Main {
             int n = Integer.parseInt(st.nextToken());
             int k = Integer.parseInt(st.nextToken());
 
-            int[][] dp = new int[n + 1][k + 1];
-            for (int i = 0; i < dp.length; i++) {
-                dp[i][0] = 1;
-            }
+            int[] dp = new int[k + 1];
+            dp[0] = 1;
 
-            int[] coin = new int[n + 1];
-            for (int i = 1; i < coin.length; i++) {
+            int[] coin = new int[n];
+            for (int i = 0; i < coin.length; i++) {
                 coin[i] = Integer.parseInt(br.readLine());
             }
 
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= k; j++) {
-                    int result = dp[i - 1][j];
-                    for (int l = 1; j - coin[i] * l >= 0 ; l++) {
-                        result += dp[i - 1][j - coin[i] * l];
-                    }
-                    dp[i][j] = result;
+            for (int i = 0; i < coin.length; i++) {
+                for (int j = coin[i]; j <= k; j++) {
+                    dp[j] += dp[j - coin[i]];
                 }
             }
 
-            bw.write(dp[n][k] + "\n");
+            bw.write(dp[k] + "\n");
 
             bw.flush();
         }
